@@ -1,0 +1,21 @@
+declare
+    @count int;
+begin
+    select count(*) into @count from Vegetable_Category where Title=@title;
+
+	@count=isnull(@count,0);
+
+	if (@count>0)
+	begin
+	    @errorString='±ÍÃ‚÷ÿ∏¥°£';
+		goto EndOperate;
+	end;
+
+	insert into Vegetable_Category (Category_Id,Title,Description)values(@categoryId,@title,@description);
+
+	EndOperate:
+	    if (@errorString is null)
+		begin
+		    @errorString='success';
+		end;
+end;

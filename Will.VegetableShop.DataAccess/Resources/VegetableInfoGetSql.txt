@@ -1,0 +1,12 @@
+select
+    v.Vegetable_Id
+	,v.Title
+	,v.Category_Id
+	,c.Title as Category_Title
+	,v.Profit_Margin
+	,v.Is_Activity
+	,v.Description
+	,v.Input_Time
+from Vegetable_Info v
+left join Vegetable_Category c on v.Category_Id=c.Category_Id
+where 1=1

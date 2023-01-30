@@ -1,0 +1,21 @@
+declare
+    @count int;
+
+	@oldActivity int;
+begin
+    select min(Is_Activity) into @oldActivity from Vegetable_Info where Vegetable_Id=@vegetableId;
+
+	if (@oldActivity is null)
+	begin
+	    @errorString='指定的菜品不存在。'+@vegetableId;
+		goto EndOperate;
+	end;
+
+	update Vegetable_Info set Is_Activity=1-Is_Activity where Vegetable_Id=@vegetableId;
+
+	EndOperate:
+	    if (@errorString is null)
+		begin
+		    @errorString='success';
+		end;
+end;

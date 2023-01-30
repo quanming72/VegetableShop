@@ -1,0 +1,12 @@
+select
+    Title
+	,Code
+	,Kind
+	,Is_Base
+	,To_Base
+	,Description
+	,Is_Activity
+	,Input_Time
+	,Last_Update_Time
+from Measure_Unit
+where 1=1

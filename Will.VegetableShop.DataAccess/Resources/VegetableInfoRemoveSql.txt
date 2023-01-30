@@ -1,0 +1,32 @@
+declare
+    @count int;
+begin
+    select count(*) into @count from Vegetable_Stock_Input where Vegetable_Id=@vegetableId;
+
+	@count=isnull(@count,0);
+
+	if (@count>0)
+	begin
+	    @errorString='有入库记录，不能删除。';
+		goto EndOperate;
+	end;
+
+    select count(*) into @count from Vegetable_Stock_Output where Vegetable_Id=@vegetableId;
+
+	@count=isnull(@count,0);
+
+	if (@count>0)
+	begin
+	    @errorString='有出库记录，不能删除。';
+		goto EndOperate;
+	end;
+
+	delete Vegetable_Inventory where Vegetable_Id=@vegetableId;
+	delete Vegetable_Info where Vegetable_Id=@vegetableId;
+
+	EndOperate:
+	    if (@errorString is null)
+		begin
+		    @errorString='success';
+		end;
+end;

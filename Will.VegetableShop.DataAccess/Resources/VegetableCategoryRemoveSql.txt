@@ -1,0 +1,21 @@
+declare
+    @count int;
+begin
+    select count(*) into @count from Vegetable_Info where Category_Id=@categoryId;
+
+	@count=isnull(@count,0);
+
+	if (@count>0)
+	begin
+	    @errorString='分类已被使用，不能删除。';
+		goto EndOperate;
+	end;
+
+	delete Vegetable_Category where Category_Id=@categoryId;
+
+	EndOperate:
+	    if (@errorString is null)
+		begin
+		    @errorString='success';
+		end;
+end;

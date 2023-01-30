@@ -1,0 +1,36 @@
+declare
+    @count int;
+
+	@oldActivity int;
+begin
+    select min(Is_Activity) into @oldActivity from Vegetable_Category where Category_Id=@categoryId;
+
+	if (@oldActivity is null)
+	begin
+	    @errorString='指定的分类不存在。'+@categoryId;
+		goto EndOperate;
+	end;
+
+	if (@oldActivity=1)
+	begin
+	    --有使用中的菜品时不能禁用
+
+	    select count(*) into @count from Vegetable_Info where Category_Id=@categoryId and Is_Activity=1;
+	end;
+
+	@count=isnull(@count,0);
+
+	if (@count>0)
+	begin
+	    @errorString='分类已被使用，不能禁用。';
+		goto EndOperate;
+	end;
+
+	update Vegetable_Category set Is_Activity=1-Is_Activity where Category_Id=@categoryId;
+
+	EndOperate:
+	    if (@errorString is null)
+		begin
+		    @errorString='success';
+		end;
+end;

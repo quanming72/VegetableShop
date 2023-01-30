@@ -1,0 +1,13 @@
+declare
+    objectTitle nvarchar2(200);
+begin
+    select min(Title) into objectTitle from Vegetable_Info where Vegetable_Id=:objectId;
+
+    --修改数据
+    update Vegetable_Info set
+        {0}=:newValue
+    where Vegetable_Id=:objectId;
+
+    --其他操作
+    {1}
+end;

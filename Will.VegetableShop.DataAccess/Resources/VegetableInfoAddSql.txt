@@ -1,0 +1,22 @@
+declare
+    @count int;
+begin
+    select count(*) into @count from Vegetable_Info where Title=@title;
+
+	@count=isnull(@count,0);
+
+	if (@count>0)
+	begin
+	    @errorString='±ÍÃ‚÷ÿ∏¥°£';
+		goto EndOperate;
+	end;
+
+	insert into Vegetable_Info (Vegetable_Id,Category_Id,Title,Profit_Margin,Description)values(@vegetableId,@categoryId,@title,@profitMargin,@description);
+	insert into Vegetable_Inventory (Inventory_Id,Vegetable_Id,Amount)values(newid(),@vegetableId,0);
+
+	EndOperate:
+	    if (@errorString is null)
+		begin
+		    @errorString='success';
+		end;
+end;
